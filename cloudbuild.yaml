@@ -10,7 +10,7 @@ steps:
       - "-c"
       - |
         echo "Step 1: Building Docker image..."
-        docker build -t us-central1-docker.pkg.dev/${PROJECT_ID}/k8s/k8s-con2:${SHORT_SHA} -t us-central1-docker.pkg.dev/${PROJECT_ID}/k8s/k8s-con2:latest .
+        docker build -t us-central1-docker.pkg.dev/solar-imprint-427818-r2/k8s/k8s-container2:latest .
         echo "Docker image built successfully."
 
   # Docker Push
@@ -21,5 +21,6 @@ steps:
       - "-c"
       - |
         echo "Step 2: Pushing Docker image..."
-        docker push --all-tags us-central1-docker.pkg.dev/${PROJECT_ID}/k8s/k8s-con2
+        docker push --all-tags us-central1-docker.pkg.dev/solar-imprint-427818-r2/k8s/k8s-container2
         echo "Image pushed successfully."
+
