@@ -1,0 +1,25 @@
+options:
+  logging: CLOUD_LOGGING_ONLY
+
+steps:
+  # Docker Build
+  - id: Build
+    name: "gcr.io/cloud-builders/docker"
+    entrypoint: "bash"
+    args:
+      - "-c"
+      - |
+        echo "Step 1: Building Docker image..."
+        docker build -t us-central1-docker.pkg.dev/${PROJECT_ID}/k8s/k8s-con2:${SHORT_SHA} -t us-central1-docker.pkg.dev/${PROJECT_ID}/k8s/k8s-con2:latest .
+        echo "Docker image built successfully."
+
+  # Docker Push
+  - id: Push
+    name: "gcr.io/cloud-builders/docker"
+    entrypoint: "bash"
+    args:
+      - "-c"
+      - |
+        echo "Step 2: Pushing Docker image..."
+        docker push --all-tags us-central1-docker.pkg.dev/${PROJECT_ID}/k8s/k8s-con2
+        echo "Image pushed successfully."
