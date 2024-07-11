@@ -24,3 +24,18 @@ steps:
         docker push --all-tags us-central1-docker.pkg.dev/solar-imprint-427818-r2/k8s/k8s-container2
         echo "Image pushed successfully."
 
+  - id: Update GKE
+    name: "gcr.io/cloud-builders/kubectl"
+    entrypoint: "bash"
+    args:
+      - "-c"
+      - |
+        echo "Step 4: Updating pod by setting new image...."
+        echo "${PROJECT_ID}"
+        kubectl get deployment con2-deployment || kubectl apply -f manifest.yaml
+        kubectl set image deployment/con2-deployment k8s-container2=us-central1-docker.pkg.dev/solar-imprint-427818-r2/k8s/k8s-container2:latest
+        echo "Image updated successfully."
+    env:
+      - 'CLOUDSDK_COMPUTE_REGION=us-central1-c'
+      - 'CLOUDSDK_CONTAINER_CLUSTER=k8s'
+
