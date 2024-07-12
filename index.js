@@ -12,6 +12,7 @@ dotenv.config();
 const PORT = Number(process.env.PORT) || 2000;
 const FILE_DIRECTORY = process.env.FILE_DIRECTORY || "../";
 
+console.log("Test")
 
 app.post("/parser", async (req, res) => {
   const { file, product } = req.body;
