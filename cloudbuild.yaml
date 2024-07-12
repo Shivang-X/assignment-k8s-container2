@@ -13,7 +13,7 @@ steps:
       - "-c"
       - |
         echo "Step 1: Building Docker image..."
-        docker build -t $IMAGE_NAME:${SHORT_SHA} .
+        docker build -t $_IMAGE_NAME:${SHORT_SHA} .
         echo "Docker image built successfully."
 
   # Docker Push
@@ -24,7 +24,7 @@ steps:
       - "-c"
       - |
         echo "Step 2: Pushing Docker image..."
-        docker push $IMAGE_NAME:${SHORT_SHA}
+        docker push $_IMAGE_NAME:${SHORT_SHA}
         echo "Image pushed successfully."
 
   - id: Update GKE
@@ -36,7 +36,7 @@ steps:
         echo "Step 4: Updating pod by setting new image...."
         gcloud container clusters get-credentials k8s-assignment --zone us-central1-c --project ${PROJECT_ID}
         kubectl get deployment container2 || kubectl apply -f manifest.yaml
-        kubectl set image deployment/container2 k8s-container2=$IMAGE_NAME:${SHORT_SHA}
+        kubectl set image deployment/container2 k8s-container2=$_IMAGE_NAME:${SHORT_SHA}
         echo "Image updated successfully."
     env:
       - 'CLOUDSDK_COMPUTE_REGION=us-central1-c'
