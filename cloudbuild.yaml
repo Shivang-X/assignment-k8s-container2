@@ -1,5 +1,5 @@
 substitutions:
-  IMAGE_NAME: "us-central1-docker.pkg.dev/solar-imprint-427818-r2/k8s/k8s-container2"
+  _IMAGE_NAME: "us-central1-docker.pkg.dev/solar-imprint-427818-r2/k8s/k8s-container2"
 
 options:
   logging: CLOUD_LOGGING_ONLY
