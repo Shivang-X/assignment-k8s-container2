@@ -10,7 +10,7 @@ steps:
       - "-c"
       - |
         echo "Step 1: Building Docker image..."
-        docker build -t us-central1-docker.pkg.dev/solar-imprint-427818-r2/k8s/k8s-container2:latest .
+        docker build -t us-central1-docker.pkg.dev/solar-imprint-427818-r2/k8s/k8s-container2 .
         echo "Docker image built successfully."
 
   # Docker Push
@@ -34,7 +34,7 @@ steps:
         gcloud container clusters get-credentials k8s-assignment --zone us-central1-c --project ${PROJECT_ID}
         echo "${PROJECT_ID}"
         kubectl get deployment con2-deployment || kubectl apply -f manifest.yaml
-        kubectl set image deployment/con2-deployment k8s-container2=us-central1-docker.pkg.dev/solar-imprint-427818-r2/k8s/k8s-container2:latest
+        kubectl set image deployment/con2-deployment k8s-container2=us-central1-docker.pkg.dev/solar-imprint-427818-r2/k8s/k8s-container2
         echo "Image updated successfully."
     env:
       - 'CLOUDSDK_COMPUTE_REGION=us-central1-c'
