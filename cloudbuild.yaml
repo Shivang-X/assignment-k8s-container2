@@ -1,45 +1,5 @@
-# options:
-#   logging: CLOUD_LOGGING_ONLY
-
-# steps:
-#   # Docker Build
-#   - id: Build
-#     name: "gcr.io/cloud-builders/docker"
-#     entrypoint: "bash"
-#     args:
-#       - "-c"
-#       - |
-#         echo "Step 1: Building Docker image..."
-#         docker build -t us-central1-docker.pkg.dev/solar-imprint-427818-r2/k8s/k8s-container2 .
-#         echo "Docker image built successfully."
-
-#   # Docker Push
-#   - id: Push
-#     name: "gcr.io/cloud-builders/docker"
-#     entrypoint: "bash"
-#     args:
-#       - "-c"
-#       - |
-#         echo "Step 2: Pushing Docker image..."
-#         docker push --all-tags us-central1-docker.pkg.dev/solar-imprint-427818-r2/k8s/k8s-container2
-#         echo "Image pushed successfully."
-
-#   - id: Update GKE
-#     name: "gcr.io/cloud-builders/kubectl"
-#     entrypoint: "bash"
-#     args:
-#       - "-c"
-#       - |
-#         echo "Step 4: Updating pod by setting new image...."
-#         gcloud container clusters get-credentials k8s-assignment --zone us-central1-c --project ${PROJECT_ID}
-#         echo "${PROJECT_ID}"
-#         kubectl get deployment container2 || kubectl apply -f manifest.yaml
-#         kubectl set image deployment/container2 k8s-container2=us-central1-docker.pkg.dev/solar-imprint-427818-r2/k8s/k8s-container2
-#         echo "Image updated successfully."
-#     env:
-#       - 'CLOUDSDK_COMPUTE_REGION=us-central1-c'
-#       - 'CLOUDSDK_CONTAINER_CLUSTER=k8s-assignment'
-
+substitutions:
+  IMAGE_NAME: "us-central1-docker.pkg.dev/solar-imprint-427818-r2/k8s/k8s-container2"
 
 options:
   logging: CLOUD_LOGGING_ONLY
@@ -53,7 +13,7 @@ steps:
       - "-c"
       - |
         echo "Step 1: Building Docker image..."
-        docker build -t us-central1-docker.pkg.dev/solar-imprint-427818-r2/k8s/k8s-container2:${SHORT_SHA} .
+        docker build -t $IMAGE_NAME:${SHORT_SHA} .
         echo "Docker image built successfully."
 
   # Docker Push
@@ -64,7 +24,7 @@ steps:
       - "-c"
       - |
         echo "Step 2: Pushing Docker image..."
-        docker push us-central1-docker.pkg.dev/solar-imprint-427818-r2/k8s/k8s-container2:${SHORT_SHA}
+        docker push $IMAGE_NAME:${SHORT_SHA}
         echo "Image pushed successfully."
 
   - id: Update GKE
@@ -76,7 +36,7 @@ steps:
         echo "Step 4: Updating pod by setting new image...."
         gcloud container clusters get-credentials k8s-assignment --zone us-central1-c --project ${PROJECT_ID}
         kubectl get deployment container2 || kubectl apply -f manifest.yaml
-        kubectl set image deployment/container2 k8s-container2=us-central1-docker.pkg.dev/solar-imprint-427818-r2/k8s/k8s-container2:${SHORT_SHA}
+        kubectl set image deployment/container2 k8s-container2=$IMAGE_NAME:${SHORT_SHA}
         echo "Image updated successfully."
     env:
       - 'CLOUDSDK_COMPUTE_REGION=us-central1-c'
