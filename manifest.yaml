@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: con2-deployment
+  name: container2
   labels:
     app: k8s-container2
 spec:
